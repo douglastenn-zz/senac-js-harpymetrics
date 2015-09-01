@@ -1,0 +1,13 @@
+{
+	"node": true,
+	"browser": true,
+	"curly": false,
+	"devel": true,
+	"quotmark": false,
+	"sub": true,
+	"jquery": true,
+	"globals":{
+		"s": true,
+		"vtexjs": true
+	}
+}
