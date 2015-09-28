@@ -5,6 +5,14 @@ if(VERSION) {
 	window.harpy = { version: VERSION };
 }
 
-require('vendors/jquery.js');
+require('jquery');
+require('helpers/polyfills');
+require('helpers/extensions');
+require('vendors/harpymetrics');
 
-var $Harpy = jQuery.noConflict();
+Harpy.init([], function() { 
+	var modules = require.context('modules', true, /\.js$/);
+	modules.keys().forEach(modules);
+});
+
+
