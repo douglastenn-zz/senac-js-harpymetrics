@@ -1,6 +1,6 @@
 {
   "name": "Script-HarpyMetrics",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Implementação do script de captura do harpymetrics",
   "private": true,
   "repository": {

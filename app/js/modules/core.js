@@ -2,8 +2,24 @@
 
 Harpy.module('core',[], function() {
 
-	var self = this,
-	harpyObj = $.getCookie('harpy');
+	var self = this, cHarpy = {};
+
+	this.init = function() {
+		var data = {}, $document = document;
+		data.url 			= window.location.href;
+		data.referrerURL	= ($document.referrer) ? $document.referrer : '';
+		data.title 			= $document.title;
+		data.userId 		= self.userId();
+		data.deviceType 	= self.deviceType();
+		data.startTimestamp = $.now(); 
+
+		if($.hasLocalStorage()){
+		    data.referrerTitle = (localStorage.getItem('referrerTitle')) ? localStorage.getItem('referrerTitle') : '';
+		    localStorage.setItem('referrerTitle', data.title);
+		}
+
+		return data;
+	};
 
 	this.scrollDepth = function(containerA, containerB) {
 		if(containerA == undefined)
@@ -25,15 +41,42 @@ Harpy.module('core',[], function() {
 	  return deviceType;
 	};
 
+	this.userId = function() {
+		return ($.getCookie('harpyUs')) ? 
+					$.getCookie('harpyUs') : 
+					$.setCookie('harpyUs', $.now());
+	};
 
-	this.getBasicInfo = function() {
-		var basic = {}, $document = document, obj = JSON.parse(harpyObj);
-		basic.title 		= $document.title;
-		basic.url 			= window.location.href;
-		basic.referrerTitle = $document.title;
-		basic.referrerURL	= $document.referrer;
-		console.log('harpyObj', obj);
-		$.setCookie('harpy', JSON.stringify(basic) );
+	cHarpy = self.init();
+
+	this.prepareData = function() {
+		cHarpy.scrollDepth 	= self.scrollDepth();
+		cHarpy.timestamp 	= $.now();
+		
+		var data = $.mergeObject(cHarpy, window._appHarpy);
+		data 	 = $.mergeObject(data,window._propsHarpy);
+		return data;
+
+	};
+
+	this.send = function(endpoint) {
+		var data = self.prepareData();
+		$.ajax({
+		    url : 'localhost:3000/save',
+		    type : "post",
+		    data: data,
+		    async : true,
+		    success : function(data) {
+		    	console.log('success', data);
+		    },
+		    error: function(data) {
+		    	console.log('error', data);	
+		    }
+		});
 	};
 
 });
+
+
+
+

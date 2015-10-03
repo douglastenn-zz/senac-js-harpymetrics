@@ -1,6 +1,29 @@
 //jQuery extensions
 (function ($) {
 
+	$.hasLocalStorage = function () {
+	  if ('localStorage' in window) {
+	    try {
+	      window.localStorage.setItem('_tmptest', 'tmpval');
+	      window.localStorage.removeItem('_tmptest');
+	      return true;
+	    } catch (BogusQuotaExceededErrorOnIos5) {
+	      // Thanks be to iOS5 Private Browsing mode which throws
+	      // QUOTA_EXCEEDED_ERRROR DOM Exception 22.
+	      return false;
+	    }
+	  }else{
+	    return false;
+	  }
+	};
+
+	$.mergeObject = function(obj1,obj2) {
+	    var obj3 = {};
+	    for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
+	    for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
+	    return obj3;
+	};
+
 	$.getCookie = function(name) {
 	    if (document.cookie.length > 0) {
 	        start = document.cookie.indexOf(name + "=");
