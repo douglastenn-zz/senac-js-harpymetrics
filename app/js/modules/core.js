@@ -2,7 +2,7 @@
 
 Harpy.module('core',[], function() {
 
-	var self = this, cHarpy = {}, userStep = 0;
+	var self = this, cHarpy = {}, navigationInit = 0;
 
 	this.init = function() {
 		var data = {}, $document = document;
@@ -17,8 +17,8 @@ Harpy.module('core',[], function() {
 		    data.referrerTitle = (localStorage.getItem('referrerTitle')) ? localStorage.getItem('referrerTitle') : '';
 		    localStorage.setItem('referrerTitle', data.title);
 
-		    data.userStep = (localStorage.getItem('harpyStep')) ? localStorage.getItem('harpyStep') : '';
-		    localStorage.setItem('harpyStep', userStep++);
+		    data.userStep = localStorage.getItem('harpyStep');
+		    localStorage.setItem('harpyStep', navigationInit++);
 		}
 
 		return data;
