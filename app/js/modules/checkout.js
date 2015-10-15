@@ -4,31 +4,21 @@ require('modules/core');
 
 Harpy.module('checkout', ['core'], function(core) {
 
-	var checkout = [], products = [];
+	var checkout = [];
 	var obj = {};
 
 	obj.event 		= (window._appHarpy.event) ? window._appHarpy.event : '';
 	obj.harpyId 	= (window._appHarpy.harpyId) ? window._appHarpy.harpyId : '';
-	obj.hitType 	= (window._appHarpy.hitType) ? window._appHarpy.hitType : '';
+	obj.hitType 	= (window._appHarpy.hitType) ? window._appHarpy.hitType.toLowerCase() : '';
 	obj.pageType 	= 'Checkout';
-
-
-	if(window._propsHarpy.product) {
-		$(window._propsHarpy.product).each(function(i,e) { 
-			var prod = {};
-
-			prod.id 			= (e.id) ? e.id : '';
-			prod.quantity 		= (e.quantity) ? e.quantity : '';
-
-			products.push(prod);
-		});
-	}
-
 
 	if(window._propsHarpy.checkout) {
 		$(window._propsHarpy.checkout).each(function(i,e) { 
 			var check = {};
 
+			check.id 			= (e.id) ? e.id : '';
+			check.price 		= (e.price) ? e.price : '';
+			check.quantity 		= (e.quantity) ? e.quantity : '';
 			check.transactionId	= (e.transactionId) ? e.transactionId : '';
 			check.revenue		= (e.revenue) ? e.revenue : '';
 			check.tax			= (e.tax) ? e.tax : '';
@@ -41,7 +31,6 @@ Harpy.module('checkout', ['core'], function(core) {
 		window._propsHarpy = {}, window._appHarpy = {};
 		window._propsHarpy.props = {};
 		window._propsHarpy.props.checkout = checkout;
-		window._propsHarpy.props.product = products;
 		window._appHarpy = obj;
 
 		core.send();

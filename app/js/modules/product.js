@@ -9,7 +9,7 @@ Harpy.module('product', ['core'], function(core) {
 
 	obj.event 		= (window._appHarpy.event) ? window._appHarpy.event : '';
 	obj.harpyId 	= (window._appHarpy.harpyId) ? window._appHarpy.harpyId : '';
-	obj.hitType 	= (window._appHarpy.hitType) ? window._appHarpy.hitType : '';
+	obj.hitType 	= (window._appHarpy.hitType) ? window._appHarpy.hitType.toLowerCase() : '';
 	obj.pageType 	= 'Product';
 
 	if(window._propsHarpy.product) {

@@ -2,7 +2,7 @@
 
 Harpy.module('core',[], function() {
 
-	var self = this, cHarpy = {};
+	var self = this, cHarpy = {}, userStep = 0;
 
 	this.init = function() {
 		var data = {}, $document = document;
@@ -16,6 +16,9 @@ Harpy.module('core',[], function() {
 		if($.hasLocalStorage()){
 		    data.referrerTitle = (localStorage.getItem('referrerTitle')) ? localStorage.getItem('referrerTitle') : '';
 		    localStorage.setItem('referrerTitle', data.title);
+
+		    data.userStep = (localStorage.getItem('harpyStep')) ? localStorage.getItem('harpyStep') : '';
+		    localStorage.setItem('harpyStep', userStep++);
 		}
 
 		return data;
@@ -54,7 +57,7 @@ Harpy.module('core',[], function() {
 		cHarpy.timestamp 	= $.now();
 		
 		var data = $.mergeObject(cHarpy, window._appHarpy);
-		data 	 = $.mergeObject(data,window._propsHarpy);
+		data 	 = $.mergeObject(data, window._propsHarpy);
 		return data;
 
 	};
@@ -62,10 +65,9 @@ Harpy.module('core',[], function() {
 	this.send = function(endpoint) {
 		var data = self.prepareData();
 		$.ajax({
-		    url : 'localhost:3000/save',
+		    url : '//localhost:3000/save',
 		    type : "post",
 		    data: data,
-		    async : true,
 		    success : function(data) {
 		    	console.log('success', data);
 		    },
